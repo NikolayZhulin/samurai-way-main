@@ -1,38 +1,62 @@
-.App {
-  text-align: center;
+.wrapper{
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows:100px auto 100px;
+  grid-column-gap: 30px;
+  grid-row-gap: 10px;
+ 
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header{
+  background: red;
   display: flex;
+  align-items: center;
+}
+.header img{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-left: 50px;
+}
+
+.content-wrapper{
+  display: grid;
+  grid-template-columns: 250px 800px;
+  justify-content: center;
+  grid-column-gap: 30px;
+}
+
+.nav{
+  background: green;
+  height: 600px;
+  font-family: "Book Antiqua";
+  font-size: 25px;
+  display:flex;
+  justify-content: space-around;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  
+}
+.nav a:active, /* активная/посещенная ссылка */
+.nav a:hover,  /* при наведении */
+.nav a {
+  text-decoration: none;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.main{
+  background: blue;
+  min-height: 800px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main .profile-img{
+  width:150px;
+  height: 150px;
+  border-radius: 50%;
+  border:3px solid lightslategray;
+  margin:40px 40px;
+}
+
+.footer{
+background: brown;
 }
