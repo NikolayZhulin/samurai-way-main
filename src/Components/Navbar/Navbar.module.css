@@ -9,11 +9,18 @@
 	align-items: center;
 	
 }
-.nav a:active, /* активная/посещенная ссылка */
-.nav a:hover,  /* при наведении */
+
 .nav a {
 	text-decoration: none;
 	color: white;
 }
+
+.nav a.active {
+	color: gold;
+}
+.nav a:hover {
+	border-bottom: 1px solid white;
+}
+
 
 

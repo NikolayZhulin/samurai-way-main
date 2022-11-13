@@ -1,0 +1,19 @@
+.main{
+	background: blue;
+	min-height: 800px;
+	display: grid;
+	grid-template-columns: 2fr 10fr;
+}
+
+.dialogs, .messages{
+	padding:20px;;
+}
+
+.dialogItem a{
+	color:white;
+	text-decoration: none;
+}
+
+a.active{
+	color:gold;
+}

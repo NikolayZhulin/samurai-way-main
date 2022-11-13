@@ -1,12 +1,7 @@
-.main{
-	background: blue;
-	min-height: 800px;
+.add_post_btn{
+	margin-bottom: 10px;
 }
 
-.main .profile_img{
-	width:150px;
-	height: 150px;
-	border-radius: 50%;
-	border:3px solid lightslategray;
-	margin:40px 40px;
+.posts{
+	padding: 10px;
 }

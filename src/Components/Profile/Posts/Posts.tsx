@@ -8,15 +8,22 @@ import {MyPost} from "./MyPost/MyPost";
 // }
 
 export const Posts=()=>{
+	
+	const posts=[
+		{post:"It's my second post",likeCount:5  },
+		{post:"It's my first post",likeCount:8},
+	]
+	
 	return (
 		<div className={classes.posts}>
-			<textarea></textarea>
-			<div>
+			<div className={classes.input}>
+				<textarea></textarea>
+			</div>
+			
+			<div className={classes.add_post_btn}>
 				<button>Add post</button>
 			</div>
-			<MyPost post = {"It's my second post"} likeCount = {"5"}/>
-			<MyPost post = {"It's my first post"} likeCount = {"2"}/>
-		
+			<MyPost posts={posts}/>
 		</div>
 	)
 }

@@ -1,0 +1,19 @@
+
+.main{
+	display: flex;
+	height: 200px;
+	align-items: center;
+	padding: 10px;
+}
+
+.profile_img{
+	width:150px;
+	height: 150px;
+	border-radius: 50%;
+	border:3px solid lightslategray;
+}
+
+.user_profile_description{
+	margin-left: 40px;
+}
+
