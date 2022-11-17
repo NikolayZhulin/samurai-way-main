@@ -1,14 +1,11 @@
 import classes from "./MyPost.module.css";
 import React from "react";
+import {postsType} from "../../../../index";
 
 
-type postType={
-	post: string
-	likeCount:number
-}
 
 type MyPostPropsType={
-	posts:Array<postType>
+	posts: Array<postsType>
 }
 
 export const MyPost=(props:MyPostPropsType)=>{
