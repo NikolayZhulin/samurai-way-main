@@ -2,17 +2,17 @@ import React from "react";
 import classes from './Profile.module.css';
 import {Posts} from "./Posts/Posts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {postsType} from "../../index";
+import {StateType} from "../../Redux/state";
 
 type ProfilePropsType={
-	posts:Array<postsType>
+	state:StateType
 }
 
 export const Profile =(props:ProfilePropsType)=>{
 	return(
 			<div className={classes.main}>
 				<ProfileInfo/>
-				<Posts posts={props.posts}/>
+				<Posts posts={props.state.ProfilePage}/>
 			</div>
 	)
 }

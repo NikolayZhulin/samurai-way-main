@@ -1,10 +1,11 @@
 import classes from "./Posts.module.css";
 import React from "react";
 import {MyPost} from "./MyPost/MyPost";
-import {postsType} from "../../../index";
+import {postsType, profilePageType} from "../../../Redux/state";
+
 
 type PostsPropsType={
-	posts:Array<postsType>
+	posts:profilePageType
 }
 
 export const Posts=(props:PostsPropsType)=>{
@@ -16,7 +17,7 @@ export const Posts=(props:PostsPropsType)=>{
 			<div className={classes.add_post_btn}>
 				<button>Add post</button>
 			</div>
-			<MyPost posts={props.posts}/>
+			<MyPost posts={props.posts.posts}/>
 		</div>
 	)
 }

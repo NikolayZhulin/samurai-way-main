@@ -1,0 +1,13 @@
+.main{
+	background: blue;
+	min-height: 800px;
+	display: grid;
+	grid-template-columns: 2fr 10fr;
+	padding:20px;
+	color:white;
+}
+
+.friends_link{
+	display: flex;
+	flex-direction: column;
+}
