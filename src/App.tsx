@@ -13,7 +13,8 @@ import {StateType} from "./Redux/state";
 import {Friends} from "./Components/Friends/Friends";
 
 type AppPropsType = {
-	state:StateType
+	state: StateType
+	addPost: (title: string) => void
 }
 
 function App(props: AppPropsType) {
@@ -23,8 +24,8 @@ function App(props: AppPropsType) {
 				<Header/>
 				<div className={'content-wrapper'}>
 					<Navbar state={props.state}/>
-					<Route path='/profile' render={()=><Profile state={props.state}/>}/>
-					<Route path='/dialogs' render={()=><Dialogs state={props.state}/>}/>
+					<Route path='/profile' render={() => <Profile state={props.state} addPost={props.addPost}/>}/>
+					<Route path='/dialogs' render={() => <Dialogs state={props.state}/>}/>
 					<Route path='/news' render={News}/>
 					<Route path='/music' render={Music}/>
 					<Route path='/settings' render={Settings}/>
