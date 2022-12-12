@@ -1,31 +1,40 @@
 import classes from "./Posts.module.css";
-import React, {RefObject} from "react";
+import React, {ChangeEvent, RefObject} from "react";
 import {MyPost} from "./MyPost/MyPost";
 import {profilePageType} from "../../../Redux/state";
 
 
 type PostsPropsType={
-	posts:profilePageType
-	addPost:(title:string)=>void
+	posts:profilePageType;
+	addPost:(text:string)=>void;
+	upDatePostText:(text:string)=>void;
 }
 
 export const Posts=(props:PostsPropsType)=>{
 	
 	let addMessageArea:RefObject<HTMLTextAreaElement> = React.createRef()
-	function onClickHandler(){
-		let text:any= addMessageArea.current?.value
-		props.addPost(text)
-		// @ts-ignore
-		addMessageArea.current.value = ''
+	function addPost(){
+		if(addMessageArea.current?.value){
+			let text:string= addMessageArea.current?.value;
+			props.addPost(text)
+		}
+
+	}
+	
+	const upDatePostText=(e:ChangeEvent<HTMLTextAreaElement>)=>{
+		if(e.currentTarget.value){
+			let text = e.currentTarget.value
+			props.upDatePostText(text)
+		}
 	}
 	
 	return (
 		<div className={classes.posts}>
 			<div className={classes.input}>
-				<textarea ref={addMessageArea}></textarea>
+				<textarea onChange={upDatePostText} ref={addMessageArea} value={props.posts.newPostText}></textarea>
 			</div>
 			<div className={classes.add_post_btn}>
-				<button onClick={onClickHandler}>Add post</button>
+				<button onClick={addPost}>Add post</button>
 			</div>
 			<MyPost posts={props.posts.posts}/>
 		</div>

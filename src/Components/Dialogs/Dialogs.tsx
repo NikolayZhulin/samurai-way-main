@@ -1,23 +1,22 @@
 import React from "react";
 import classes from './Dialogs.module.css';
-import {NavLink} from "react-router-dom";
-import {MessageItem} from "./Messages/Messages";
 import {DialogItem} from "./DialogItem/DialogItem";
-import {dialogsType, messagesType, StateType} from "../../Redux/state";
+import {StoreType} from "../../Redux/state";
+import {MessagesContainer} from "./Messages/Messages-container"
 
 
 type DialogsPropsType={
-	state:StateType
+	store:StoreType;
 }
 
 
 
 export const Dialogs = (props:DialogsPropsType) => {
-	
+
 	return (
 		<div className={classes.main}>
-			<DialogItem dialogs={props.state.messagesPage.dialogs}/>
-			<MessageItem messages={props.state.messagesPage.messages}/>
+			<DialogItem dialogs={props.store.getState().messagesPage.dialogs}/>
+			<MessagesContainer store={props.store}/>
 		</div>
 	)
 }

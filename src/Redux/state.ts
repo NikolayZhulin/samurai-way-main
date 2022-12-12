@@ -1,85 +1,130 @@
-import {rerenderEntireTree} from "../Render";
+import dialogsReducer, {ADD_MESSAGE, UPDATE_MESSAGE_TEXT} from "./dialogs-reducer";
+import profileReducer, {ADD_POST, UPDATE_POST_TEXT} from "./profile-reducer";
 
 export type dialogsType = {
-	id: number
-	name: string
+    id: number;
+    name: string;
 }
 
 export type messagesType = {
-	id: number
-	message: string
+    id: number;
+    message: string;
 }
 
 export type postsType = {
-	post: string
-	likeCount: number
+    post: string;
+    likeCount: number;
 }
 
-type messagesPageType={
-	dialogs:Array<dialogsType>
-	messages:Array<messagesType>
+export type messagesPageType = {
+    dialogs: Array<dialogsType>;
+    messages: Array<messagesType>;
+    newMessageText: string;
 }
 
-export type profilePageType={
-	posts:Array<postsType>
+export type profilePageType = {
+    posts: Array<postsType>;
+    newPostText: string;
 }
 
-export type friendsItemType ={
-	id:number
-	name:string
-	surname:string
-	age:number
+export type friendsItemType = {
+    id: number;
+    name: string;
+    surname: string;
+    age: number;
 }
 
-type FriendsType={
-	friends:Array<friendsItemType>
+type FriendsType = {
+    friends: Array<friendsItemType>;
 }
 
 export type StateType = {
-	messagesPage:messagesPageType
-	ProfilePage:profilePageType
-	Friends:FriendsType
+    messagesPage: messagesPageType;
+    ProfilePage: profilePageType;
+    Friends: FriendsType;
 }
 
-export const state:StateType = {
-	messagesPage: {
-		dialogs: [
-			{id: 1, name: 'Igor'},
-			{id: 2, name: 'Oleg'},
-			{id: 3, name: 'Alex'},
-			{id: 4, name: 'John'},
-			{id: 5, name: 'Ron'},
-			{id: 6, name: 'Paul'},
-		],
-		messages: [
-			{id: 1, message: 'hnrhnrhn'},
-			{id: 2, message: 'Olerhnrg'},
-			{id: 3, message: 'Alnrhnrhex'},
-			{id: 4, message: 'Jhngorhnhn'},
-			{id: 5, message: 'Rodddddddn'},
-			{id: 6, message: 'Paghngul'},
-		]
-	},
-	ProfilePage: {
-		posts: [
-			{post: "It's my second post", likeCount: 5},
-			{post: "It's my first post", likeCount: 8},
-		]
-	},
-	Friends:{
-		friends:[
-			{id:1,name:'Alex',surname:'Koy', age:44},
-			{id:1,name:'Oleg',surname:'Roy', age:33},
-			{id:1,name:'Stepan',surname:'Toy', age:22},
-		]
-	}
+export type StoreType = {
+    _state: StateType;
+    _rerenderEntireTree: () => void;
+    getState: () => StateType;
+    subscriber: (observer: () => void) => void;
+    dispatch: (action: ActionsTypes) => void;
+}
+
+export type ActionsTypes = AddPostActionType | UpdatePostActionType | UpdateNewMessageTextType | AddNewMessageType;
+
+type AddPostActionType = {
+    type: "ADD-POST";
+    newText: string;
+}
+type UpdatePostActionType = {
+    type: "UPDATE-POST-TEXT";
+    newPostText: string;
+}
+type UpdateNewMessageTextType = {
+    type: "UPDATE-MESSAGE-TEXT";
+    newText: string;
+}
+type AddNewMessageType = {
+    type: "ADD-MESSAGE";
+    newText: string;
 }
 
 
-export const addPost = (title:string)=>{
-	let post = {post: title, likeCount: 0}
-	console.log(post)
-	state.ProfilePage.posts.push(post)
-	rerenderEntireTree(state)
+export const store: StoreType = {
+    _state: {
+        messagesPage: {
+            dialogs: [
+                {id: 1, name: 'Igor'},
+                {id: 2, name: 'Oleg'},
+                {id: 3, name: 'Alex'},
+                {id: 4, name: 'John'},
+                {id: 5, name: 'Ron'},
+                {id: 6, name: 'Paul'},
+            ],
+            messages: [
+                {id: 1, message: 'hnrhnrhn'},
+                {id: 2, message: 'Olerhnrg'},
+                {id: 3, message: 'Alnrhnrhex'},
+                {id: 4, message: 'Jhngorhnhn'},
+                {id: 5, message: 'Rodddddddn'},
+                {id: 6, message: 'Paghngul'},
+            ],
+            newMessageText: 'q'
+        },
+        ProfilePage: {
+            posts: [
+                {post: "It's my second post", likeCount: 5},
+                {post: "It's my first post", likeCount: 8},
+            ],
+            newPostText: 'IT-INC'
+        },
+        Friends: {
+            friends: [
+                {id: 1, name: 'Alex', surname: 'Koy', age: 44},
+                {id: 1, name: 'Oleg', surname: 'Roy', age: 33},
+                {id: 1, name: 'Stepan', surname: 'Toy', age: 22},
+            ]
+        }
+    },
+    _rerenderEntireTree() {
+        console.log(1)
+    },
+
+    getState() {
+        return this._state;
+    },
+    subscriber(observer) {
+        this._rerenderEntireTree = observer;
+    },
+
+    dispatch(action:ActionsTypes) {
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
+        this._state.ProfilePage = profileReducer(this._state.ProfilePage, action)
+        this._rerenderEntireTree()
+    }
 }
+
+
 
