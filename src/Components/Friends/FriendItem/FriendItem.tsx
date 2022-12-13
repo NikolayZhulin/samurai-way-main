@@ -5,13 +5,13 @@ import {friendsItemType} from "../../../Redux/state";
 
 
 type FriendItemPropsType ={
-	friends: Array<friendsItemType>
+	friends: Array<friendsItemType> | undefined
 }
 
 export const FriendItem = (props:FriendItemPropsType) => {
 	return (
 		<div className={classes.friendItem}>
-			{props.friends.map((f)=>{
+			{props.friends?.map((f)=>{
 			return(
 				<div className={classes.friends_ava_name}>
 					<div className={classes.friend_ava}></div>

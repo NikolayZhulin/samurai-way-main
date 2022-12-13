@@ -2,13 +2,10 @@ import React from "react";
 import classes from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
 import {FriendItem} from "../Friends/FriendItem/FriendItem";
-import {StoreType} from "../../Redux/state";
+import StoreContext from "../../Store-context";
 
-type NavBarPropsType ={
-	store:StoreType
-}
 
-export const Navbar =(props:NavBarPropsType)=>{
+export const Navbar =()=>{
 	return(
 		<>
 			<nav className={classes.nav}>
@@ -22,7 +19,12 @@ export const Navbar =(props:NavBarPropsType)=>{
 						<div className={classes.friends}>
 							<NavLink to="/friends" activeClassName={classes.active}>Friends</NavLink>
 						</div>
-						<FriendItem friends={props.store.getState().Friends.friends}/>
+						<StoreContext.Consumer>
+							{(store)=>{
+								return <FriendItem friends={store?.getState().Friends.friends}/>
+							}
+							}
+						</StoreContext.Consumer>
 					</div>
 					
 				</div>

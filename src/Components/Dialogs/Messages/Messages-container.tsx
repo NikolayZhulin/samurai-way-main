@@ -1,27 +1,36 @@
 import {addMessageActionCreator, updateMessageTextActionCreator} from "../../../Redux/dialogs-reducer";
 import {StoreType} from "../../../Redux/state";
 import {MessageItem} from "./Messages";
+import StoreContext from "../../../Store-context";
 
+//
+// type MessageContainerItemPropsType = {
+//     store: StoreType
+// }
 
-type MessageContainerItemPropsType = {
-    store:StoreType
-}
+export const MessagesContainer = () => {
 
-export const MessagesContainer = (props: MessageContainerItemPropsType) => {
+    return (
+        <StoreContext.Consumer>
+            {(store) => {
 
-    const addMessage = (newText: string) => {
-        if (newText) {
-            props.store.dispatch(addMessageActionCreator(newText))
-        }
-    }
+                const messageTextChange = (newText: string) => {
+                    if (newText) {
+                        store?.dispatch(updateMessageTextActionCreator(newText))
+                    }
+                }
 
-    const messageTextChange = (newText: string) => {
-        if (newText) {
-            props.store.dispatch(updateMessageTextActionCreator(newText))
-        }
-    }
+                const addMessage = (newText: string) => {
+                    if (newText) {
+                        store?.dispatch(addMessageActionCreator(newText))
+                    }
+                }
 
-    return <MessageItem messages={props.store.getState().messagesPage}
-                        addMessage={addMessage}
-                        messageTextChange={messageTextChange}/>
+                return <MessageItem messages={store?.getState().messagesPage}
+                                    addMessage={addMessage}
+                                    messageTextChange={messageTextChange}/>
+            }
+            }
+        </StoreContext.Consumer>
+    )
 }

@@ -4,7 +4,7 @@ import {messagesPageType} from "../../../Redux/state";
 
 
 type MessageItemPropsType = {
-    messages: messagesPageType
+    messages: messagesPageType | undefined
     addMessage:(text:string)=>void
     messageTextChange:(text:string)=>void
 }
@@ -29,12 +29,12 @@ export const MessageItem = (props: MessageItemPropsType) => {
 
     return (
         <div className={classes.messageItem}>
-            {props.messages.messages.map(m => {
+            {props.messages?.messages.map(m => {
                 return (
                     <div>{m.message}</div>)
             })}
             <textarea ref={messageArea}
-                      value={props.messages.newMessageText}
+                      value={props.messages?.newMessageText}
                       onChange={messageTextChange}
                       placeholder={'Enter your message...'}
             ></textarea>

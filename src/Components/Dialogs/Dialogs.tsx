@@ -5,18 +5,17 @@ import {StoreType} from "../../Redux/state";
 import {MessagesContainer} from "./Messages/Messages-container"
 
 
-type DialogsPropsType={
-	store:StoreType;
+type DialogsPropsType = {
+    store: StoreType | any;
 }
 
 
+export const Dialogs = (props: DialogsPropsType) => {
 
-export const Dialogs = (props:DialogsPropsType) => {
-
-	return (
-		<div className={classes.main}>
-			<DialogItem dialogs={props.store.getState().messagesPage.dialogs}/>
-			<MessagesContainer store={props.store}/>
-		</div>
-	)
+    return (
+        <div className={classes.main}>
+            <DialogItem dialogs={props.store.getState().messagesPage.dialogs}/>
+            <MessagesContainer/>
+        </div>
+    )
 }
