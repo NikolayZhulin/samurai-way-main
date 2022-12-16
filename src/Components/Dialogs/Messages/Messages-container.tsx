@@ -1,36 +1,51 @@
 import {addMessageActionCreator, updateMessageTextActionCreator} from "../../../Redux/dialogs-reducer";
-import {StoreType} from "../../../Redux/state";
 import {MessageItem} from "./Messages";
 import StoreContext from "../../../Store-context";
+import React from "react";
+import {connect} from "react-redux";
 
-//
-// type MessageContainerItemPropsType = {
-//     store: StoreType
-// }
 
 export const MessagesContainer = () => {
 
     return (
-        <StoreContext.Consumer>
-            {(store) => {
 
+        <StoreContext.Consumer>
+
+            {(store) => {
+                console.log(store.getState().messagesPage)
+                let messages = store.getState().messagesPage;
                 const messageTextChange = (newText: string) => {
                     if (newText) {
-                        store?.dispatch(updateMessageTextActionCreator(newText))
+                        store.dispatch(updateMessageTextActionCreator(newText))
                     }
                 }
 
                 const addMessage = (newText: string) => {
                     if (newText) {
-                        store?.dispatch(addMessageActionCreator(newText))
+                        store.dispatch(addMessageActionCreator(newText))
                     }
                 }
 
-                return <MessageItem messages={store?.getState().messagesPage}
+                return <MessageItem messages={messages}
                                     addMessage={addMessage}
                                     messageTextChange={messageTextChange}/>
             }
             }
         </StoreContext.Consumer>
     )
+}
+
+const superMessageContainer = connect(mapStateToProps, mapDispatchToProps)(MessageItem)
+
+const mapStateToProps = (state)=>{
+    return {
+        messages: state.messages
+    }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+    return {
+        addMessage:()=>dispatch(updateMessageTextActionCreator()),
+        messageTextChange:
+    }
 }

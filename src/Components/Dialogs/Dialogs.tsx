@@ -10,12 +10,12 @@ type DialogsPropsType = {
 }
 
 
-export const Dialogs = (props: DialogsPropsType) => {
+export const Dialogs = () => {
 
     return (
         <div className={classes.main}>
-            <DialogItem dialogs={props.store.getState().messagesPage.dialogs}/>
-            <MessagesContainer/>
+            {/*<DialogItem dialogs={props.store.getState().messagesPage.dialogs}/>*/}
+            <MessagesContainer />
         </div>
     )
 }

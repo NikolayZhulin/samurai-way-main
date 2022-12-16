@@ -1,5 +1,4 @@
 import React from "react";
-import {StoreType} from "../../../Redux/state";
 import {addPostActionCreator, upDatePostTextActionCreator} from "../../../Redux/profile-reducer";
 import {Posts} from "./Posts";
 import StoreContext from "../../../Store-context";
@@ -11,25 +10,26 @@ import StoreContext from "../../../Store-context";
 
 export const PostsContainer = () => {
 
-
-
     return (
+
         <StoreContext.Consumer>
             {(store)=>{
 
+                let postsStore = store.getState().profilePage;
+                console.log(postsStore)
                 function addPost(text: string) {
                     if (text) {
-                        store?.dispatch(addPostActionCreator(text))
+                        store.dispatch(addPostActionCreator(text))
                     }
                 }
 
                 const upDatePostText = (text: string) => {
                     if (text) {
-                        store?.dispatch(upDatePostTextActionCreator(text))
+                        store.dispatch(upDatePostTextActionCreator(text))
                     }
                 }
 
-                return <Posts posts={store?.getState().ProfilePage}
+                return <Posts posts={postsStore}
                        addPost={addPost}
                        upDatePostText={upDatePostText}/>
             }}

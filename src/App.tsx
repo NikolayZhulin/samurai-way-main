@@ -9,7 +9,6 @@ import {Route} from "react-router-dom";
 import {News} from "./Components/News/News";
 import {Music} from "./Components/Music/Music";
 import {Settings} from "./Components/Settings/Settings";
-
 import {Friends} from "./Components/Friends/Friends";
 import StoreContext from "./Store-context";
 
@@ -26,7 +25,7 @@ function App() {
                     return <div className={'content-wrapper'}>
                         <Navbar/>
                         <Route path='/profile' render={() => <Profile store={store}/>}/>
-                        <Route path='/dialogs' render={() => <Dialogs store={store}/>}/>
+                        <Route path='/dialogs' render={() => <Dialogs/>}/>
                         <Route path='/news' render={News}/>
                         <Route path='/music' render={Music}/>
                         <Route path='/settings' render={Settings}/>

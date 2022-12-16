@@ -40,7 +40,7 @@ type FriendsType = {
 
 export type StateType = {
     messagesPage: messagesPageType;
-    ProfilePage: profilePageType;
+    profilePage: profilePageType;
     Friends: FriendsType;
 }
 
@@ -48,7 +48,7 @@ export type StoreType = {
     _state: StateType;
     _rerenderEntireTree: () => void;
     getState: () => StateType;
-    subscriber: (observer: () => void) => void;
+    subscribe: (observer: () => void) => void;
     dispatch: (action: ActionsTypes) => void;
 }
 
@@ -93,7 +93,7 @@ export const store: StoreType = {
             ],
             newMessageText: 'q'
         },
-        ProfilePage: {
+        profilePage: {
             posts: [
                 {post: "It's my second post", likeCount: 5},
                 {post: "It's my first post", likeCount: 8},
@@ -115,13 +115,13 @@ export const store: StoreType = {
     getState() {
         return this._state;
     },
-    subscriber(observer) {
+    subscribe(observer) {
         this._rerenderEntireTree = observer;
     },
 
     dispatch(action:ActionsTypes) {
         this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
-        this._state.ProfilePage = profileReducer(this._state.ProfilePage, action)
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._rerenderEntireTree()
     }
 }

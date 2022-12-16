@@ -5,13 +5,13 @@ import {profilePageType} from "../../../Redux/state";
 
 
 type PostsPropsType={
-	posts:profilePageType | any;
+	posts: any;
 	addPost:(text:string)=>void;
 	upDatePostText:(text:string)=>void;
 }
 
 export const Posts=(props:PostsPropsType)=>{
-	
+
 	let addMessageArea:RefObject<HTMLTextAreaElement> = React.createRef()
 	function addPost(){
 		if(addMessageArea.current?.value){
@@ -31,7 +31,9 @@ export const Posts=(props:PostsPropsType)=>{
 	return (
 		<div className={classes.posts}>
 			<div className={classes.input}>
-				<textarea onChange={upDatePostText} ref={addMessageArea} value={props.posts.newPostText}></textarea>
+				<textarea onChange={upDatePostText}
+						  ref={addMessageArea}
+						  value={props.posts.newPostText}></textarea>
 			</div>
 			<div className={classes.add_post_btn}>
 				<button onClick={addPost}>Add post</button>

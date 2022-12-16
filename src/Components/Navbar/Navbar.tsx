@@ -15,17 +15,18 @@ export const Navbar =()=>{
 					<div><NavLink to="/news" activeClassName={classes.active}>News</NavLink></div>
 					<div><NavLink to="/music" activeClassName={classes.active}>Music</NavLink></div>
 					<div><NavLink to="/settings" activeClassName={classes.active}>Settings</NavLink></div>
-					<div className={classes.friends_link}>
+					{/*<div className={classes.friends_link}>*/}
 						<div className={classes.friends}>
 							<NavLink to="/friends" activeClassName={classes.active}>Friends</NavLink>
 						</div>
-						<StoreContext.Consumer>
-							{(store)=>{
-								return <FriendItem friends={store?.getState().Friends.friends}/>
-							}
-							}
-						</StoreContext.Consumer>
-					</div>
+						{/*<StoreContext.Consumer>*/}
+						{/*	{(store)=>{*/}
+						{/*		debugger;*/}
+						{/*		return <FriendItem friends={store.getState().Friends.friends}/>*/}
+						{/*	}*/}
+						{/*	}*/}
+						{/*</StoreContext.Consumer>*/}
+					{/*</div>*/}
 					
 				</div>
 			</nav>
