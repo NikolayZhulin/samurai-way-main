@@ -1,8 +1,30 @@
-import {ActionsTypes, messagesPageType, StateType} from "./state";
-import {ActionTypes} from "redux-form";
-
 export const UPDATE_MESSAGE_TEXT = "UPDATE-MESSAGE-TEXT";
 export const ADD_MESSAGE = "ADD-MESSAGE";
+
+export type ActionsTypes = UpdateNewMessageTextType | AddNewMessageType;
+
+export type UpdateNewMessageTextType = {
+    type: "UPDATE-MESSAGE-TEXT";
+    newText: string;
+}
+export type AddNewMessageType = {
+    type: "ADD-MESSAGE";
+    newText: string;
+}
+export type dialogsType = {
+    id: number;
+    name: string;
+}
+export type messageType = {
+    id: number;
+    message: string;
+}
+export type MessagesPageType = {
+    dialogs: dialogsType[],
+    messages: messageType[],
+    newMessageText: string
+}
+
 
 export const updateMessageTextActionCreator = (newText: string): ActionsTypes => {
     return {
@@ -18,7 +40,8 @@ export const addMessageActionCreator = (newText: string): ActionsTypes => {
     }
 }
 
-const dialogsInitialState ={
+
+const dialogsInitialState: MessagesPageType = {
     dialogs: [
         {id: 1, name: 'Igor'},
         {id: 2, name: 'Oleg'},
@@ -38,21 +61,16 @@ const dialogsInitialState ={
     newMessageText: 'q'
 }
 
-const dialogsReducer = (state:messagesPageType=dialogsInitialState, action:ActionsTypes)=>{
-    switch (action.type){
+const messagePageReducer = (state: MessagesPageType = dialogsInitialState, action: ActionsTypes):MessagesPageType => {
+    switch (action.type) {
         case UPDATE_MESSAGE_TEXT:
-            console.log(action)
-            state.newMessageText = action.newText;
-            break;
+            return {...state, newMessageText: action.newText};
         case ADD_MESSAGE:
             let newMessage = {id: 5, message: action.newText}
-            state.messages.push(newMessage)
-            state.newMessageText = ''
-            break;
+            return {...state, messages: [...state.messages, newMessage], newMessageText: ''}
         default:
             return state;
     }
-    return state;
 }
 
-export default dialogsReducer;
+export default messagePageReducer;

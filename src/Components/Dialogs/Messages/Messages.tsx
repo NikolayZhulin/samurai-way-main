@@ -1,13 +1,13 @@
 import classes from '../Dialogs.module.css';
 import React, {ChangeEvent, RefObject} from "react";
-import {dialogsType, messagesPageType} from "../../../Redux/state";
-
+import {dialogsType, MessagesPageType} from "../../../Redux/messagePageReducer";
 
 
 type MessageItemPropsType = {
-    messages: messagesPageType;
-    addMessage:(text:string)=>void
-    messageTextChange:(text:string)=>void
+    messages: MessagesPageType;
+    dialogs:dialogsType[]
+    addMessage:(text:string)=>void;
+    messageTextChange:(text:string)=>void;
 }
 
 export const MessageItem = (props: MessageItemPropsType) => {
@@ -15,9 +15,8 @@ export const MessageItem = (props: MessageItemPropsType) => {
     const onclickHandler = () => {
         let newText = messageArea?.current?.value;
         if (newText) {
-            props.addMessage(newText)
+            props.addMessage(newText);;
         }
-
     }
 
     const messageTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -27,11 +26,16 @@ export const MessageItem = (props: MessageItemPropsType) => {
         }
     }
 
-    return (
+    const dialogItems = props.dialogs.map((dialog, ind)=><div key={ind}>{dialog.name}</div>)
+
+    return (<>
+        <div>
+            {dialogItems}
+        </div>
         <div className={classes.messageItem}>
-            {props.messages.messages.map(m => {
+            {props.messages.messages.map((m, ind) => {
                 return (
-                    <div>{m.message}</div>)
+                    <div key={ind}>{m.message}</div>)
             })}
             <textarea ref={messageArea}
                       value={props.messages.newMessageText}
@@ -40,5 +44,7 @@ export const MessageItem = (props: MessageItemPropsType) => {
             ></textarea>
             <button onClick={onclickHandler}>Отправить</button>
         </div>
+
+    </>
     )
 }

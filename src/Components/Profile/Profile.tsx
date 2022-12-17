@@ -1,14 +1,10 @@
 import React from "react";
 import classes from './Profile.module.css';
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {StoreType} from "../../Redux/state";
 import {PostsContainer} from "./Posts/Posts-container";
 
-type ProfilePropsType = {
-    store: StoreType | any;
-}
 
-export const Profile = (props: ProfilePropsType) => {
+export const Profile = () => {
     return (
         <div className={classes.main}>
             <ProfileInfo/>

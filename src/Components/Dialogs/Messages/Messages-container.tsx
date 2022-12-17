@@ -1,51 +1,62 @@
-import {addMessageActionCreator, updateMessageTextActionCreator} from "../../../Redux/dialogs-reducer";
+import {
+    addMessageActionCreator, dialogsType,
+    MessagesPageType,
+    updateMessageTextActionCreator
+} from "../../../Redux/messagePageReducer";
 import {MessageItem} from "./Messages";
-import StoreContext from "../../../Store-context";
 import React from "react";
 import {connect} from "react-redux";
+import {AppStateType} from "../../../Redux/redux-store";
 
 
-export const MessagesContainer = () => {
+// export const MessagesContainer = () => {
+//
+//     return (
+//
+//         <StoreContext.Consumer>
+//
+//             {(store) => {
+//                 console.log(store.getState().messagesPage)
+//                 let messages = store.getState().messagesPage;
+//                 const messageTextChange = (newText: string) => {
+//                     if (newText) {
+//                         store.dispatch(updateMessageTextActionCreator(newText))
+//                     }
+//                 }
+//
+//                 const addMessage = (newText: string) => {
+//                     if (newText) {
+//                         store.dispatch(addMessageActionCreator(newText))
+//                     }
+//                 }
+//
+//                 return <MessageItem messages={messages}
+//                                     addMessage={addMessage}
+//                                     messageTextChange={messageTextChange}/>
+//             }
+//             }
+//         </StoreContext.Consumer>
+//     )
+// }
 
-    return (
 
-        <StoreContext.Consumer>
-
-            {(store) => {
-                console.log(store.getState().messagesPage)
-                let messages = store.getState().messagesPage;
-                const messageTextChange = (newText: string) => {
-                    if (newText) {
-                        store.dispatch(updateMessageTextActionCreator(newText))
-                    }
-                }
-
-                const addMessage = (newText: string) => {
-                    if (newText) {
-                        store.dispatch(addMessageActionCreator(newText))
-                    }
-                }
-
-                return <MessageItem messages={messages}
-                                    addMessage={addMessage}
-                                    messageTextChange={messageTextChange}/>
-            }
-            }
-        </StoreContext.Consumer>
-    )
+type MapStateToPropsType = {
+    messages: MessagesPageType,
+    dialogs:dialogsType[];
 }
 
-const superMessageContainer = connect(mapStateToProps, mapDispatchToProps)(MessageItem)
-
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state: AppStateType):MapStateToPropsType=>{
     return {
-        messages: state.messages
+        messages: state.messagesPage,
+        dialogs:state.messagesPage.dialogs
     }
 }
 
-const mapDispatchToProps = (dispatch)=>{
+const mapDispatchToProps = (dispatch:any)=>{
     return {
-        addMessage:()=>dispatch(updateMessageTextActionCreator()),
-        messageTextChange:
+        addMessage:(newText:string)=>dispatch(addMessageActionCreator(newText)),
+        messageTextChange: (newText:string)=>dispatch(updateMessageTextActionCreator(newText))
     }
 }
+
+export const MessagesContainer = connect(mapStateToProps, mapDispatchToProps)(MessageItem)

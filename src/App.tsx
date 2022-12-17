@@ -10,30 +10,24 @@ import {News} from "./Components/News/News";
 import {Music} from "./Components/Music/Music";
 import {Settings} from "./Components/Settings/Settings";
 import {Friends} from "./Components/Friends/Friends";
-import StoreContext from "./Store-context";
+import {UsersContainer} from "./Components/Users/UsersContainer";
 
-// type AppPropsType = {
-//     store: StoreType
-// }
+
 
 function App() {
     return (
         <div className="wrapper">
             <Header/>
-            <StoreContext.Consumer>
-                {(store)=>{
-                    return <div className={'content-wrapper'}>
-                        <Navbar/>
-                        <Route path='/profile' render={() => <Profile store={store}/>}/>
-                        <Route path='/dialogs' render={() => <Dialogs/>}/>
-                        <Route path='/news' render={News}/>
-                        <Route path='/music' render={Music}/>
-                        <Route path='/settings' render={Settings}/>
-                        <Route path='/friends' render={Friends}/>
-                    </div>
-                }
-                }
-            </StoreContext.Consumer>
+            <div className={'content-wrapper'}>
+                <Navbar/>
+                <Route path='/profile' render={() => <Profile/>}/>
+                <Route path='/dialogs' render={() => <Dialogs/>}/>
+                <Route path='/news' render={News}/>
+                <Route path='/music' render={Music}/>
+                <Route path='/settings' render={Settings}/>
+                <Route path='/users' render={()=><UsersContainer/>}/>
+                <Route path='/friends' render={Friends}/>
+            </div>
             <Footer/>
         </div>
     );

@@ -1,21 +1,21 @@
 import classes from "./MyPost.module.css";
 import React from "react";
-import {postsType} from "../../../../Redux/state";
+import {postType} from "../../../../Redux/profile-reducer";
 
 
 
 
 type MyPostPropsType={
-	posts: Array<postsType>
+	posts: Array<postType>
 }
 
 export const MyPost=(props:MyPostPropsType)=>{
 	return (
 		<>
 			<div className={classes.my_post}>
-				{props.posts.map(post=>{
+				{props.posts.map((post, ind)=>{
 					return(
-						<div>
+						<div key={ind}>
 							<img
 								src="https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80"
 								alt=""/>

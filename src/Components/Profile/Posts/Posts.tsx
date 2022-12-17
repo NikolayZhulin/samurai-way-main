@@ -1,11 +1,12 @@
 import classes from "./Posts.module.css";
 import React, {ChangeEvent, RefObject} from "react";
 import {MyPost} from "./MyPost/MyPost";
-import {profilePageType} from "../../../Redux/state";
+import {profilePageType} from "../../../Redux/profile-reducer";
 
 
 type PostsPropsType={
-	posts: any;
+	posts: profilePageType;
+	newPostText:string;
 	addPost:(text:string)=>void;
 	upDatePostText:(text:string)=>void;
 }
@@ -16,7 +17,7 @@ export const Posts=(props:PostsPropsType)=>{
 	function addPost(){
 		if(addMessageArea.current?.value){
 			let text:string= addMessageArea.current?.value;
-			props.addPost(text)
+			props.addPost(text);
 		}
 
 	}
