@@ -1,3 +1,6 @@
 .userItem{
     display: flex;
 }
+.selected{
+    font-weight: bolder;
+}

@@ -1,7 +1,11 @@
 import React from "react";
 
 type UsersPageType = {
-    users: UsersType[]
+    users: UsersType[];
+    totalUsers: number;
+    pageSize: number;
+    selectedPage: number;
+    isFetch: boolean;
 }
 
 type locationType = {
@@ -40,19 +44,35 @@ const usersInitialState: UsersPageType = {
         //     follow: false,
         //     avatar: 'https://tunnel.ru/media/images/2016-10/post_comment/798569/at256945296.jpg'
         // },
-    ]
+    ],
+    totalUsers: 0,
+    pageSize: 10,
+    selectedPage: 1,
+    isFetch: false,
 }
 
 export const FOLLOW = 'FOLLOW';
 export const UNFOLLOW = 'UNFOLLOW';
 export const SET_USERS = 'SET_USERS';
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+export const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+export const SET_IS_FETCHING = 'SET_IS_FETCHING';
 
 
-type UsersActionType = followACType | unFollowACType | setUsersACType;
+type UsersActionType =
+    followACType
+    | unFollowACType
+    | setUsersACType
+    | setPageACType
+    | setTotalUsersCountACType
+    | setIsFetchingACType;
 
 export type followACType = ReturnType<typeof followAC>
 export type unFollowACType = ReturnType<typeof unFollowAC>
 export type setUsersACType = ReturnType<typeof setUsersAC>
+export type setPageACType = ReturnType<typeof setPageAC>
+export type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
+export type setIsFetchingACType = ReturnType<typeof setIsFetchingAC>
 
 export const followAC = (id: number) => {
     return {
@@ -81,6 +101,31 @@ export const setUsersAC = (users: UsersType[]) => {
     } as const;
 }
 
+export const setPageAC = (page: number) => {
+    return {
+        type: SET_CURRENT_PAGE,
+        payload: {
+            page: page,
+        }
+    } as const;
+}
+export const setTotalUsersCountAC = (totalUsersCount: number) => {
+    return {
+        type: SET_TOTAL_USERS_COUNT,
+        payload: {
+            totalUsersCount,
+        }
+    } as const;
+}
+export const setIsFetchingAC = (isFetch: boolean) => {
+    return {
+        type: SET_IS_FETCHING,
+        payload: {
+            isFetch,
+        }
+    } as const;
+}
+
 export const usersReducer = (state: UsersPageType = usersInitialState, action: UsersActionType): UsersPageType => {
     switch (action.type) {
         case FOLLOW:
@@ -97,6 +142,12 @@ export const usersReducer = (state: UsersPageType = usersInitialState, action: U
             }
         case SET_USERS:
             return {...state, users: [...action.payload.users]}
+        case SET_CURRENT_PAGE:
+            return {...state, selectedPage: action.payload.page}
+        case SET_TOTAL_USERS_COUNT:
+            return {...state, totalUsers: action.payload.totalUsersCount}
+        case SET_IS_FETCHING:
+            return {...state, isFetch: action.payload.isFetch}
         default:
             return state
     }
