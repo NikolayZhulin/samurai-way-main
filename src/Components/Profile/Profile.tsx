@@ -4,10 +4,11 @@ import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {PostsContainer} from "./Posts/Posts-container";
 
 
-export const Profile = () => {
+
+export const Profile = (props:any) => {
     return (
         <div className={classes.main}>
-            <ProfileInfo/>
+            <ProfileInfo profile = {props.profile}/>
             <PostsContainer/>
         </div>
     )
