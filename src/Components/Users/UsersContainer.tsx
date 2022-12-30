@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import {Users} from "./Users";
 import preloader from "../img/Settings.gif"
+import Preloader from "../Preloader/Preloader";
 
 type mapStateToPropsType = {
     users: UsersType[];
@@ -61,7 +62,7 @@ class UsersAPIComponent extends React.Component<UsersPropsType, {}> {
 
     render() {
         return (this.props.isFetch
-            ? <img style={{width: '300px'}} src={preloader} alt="Preloader"/>
+            ? <Preloader/>
             : <Users totalUsers={this.props.totalUsers}
                      pageSize={this.props.pageSize}
                      selectedPage={this.props.selectedPage}
