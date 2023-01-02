@@ -11,13 +11,14 @@ import {Settings} from "./Components/Settings/Settings";
 import {Friends} from "./Components/Friends/Friends";
 import {UsersContainer} from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
+import HeaderContainer from "./Components/Header/HeaderContainer";
 
 
 
 function App() {
     return (
         <div className="wrapper">
-            <Header/>
+            <HeaderContainer/>
             <div className={'content-wrapper'}>
                 <Navbar/>
                 <Route path='/profile/:id?' render={() => <ProfileContainer/>}/>
