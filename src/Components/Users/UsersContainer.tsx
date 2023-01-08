@@ -2,8 +2,9 @@ import React from "react";
 import {connect} from "react-redux";
 import {AppStateType} from "../../Redux/redux-store";
 import {
+    finishFollowing,
     follow,
-    setIsFetch,
+    setIsFetch, setIsFollowing,
     setPage,
     setTotalUsersCount,
     setUsers,
@@ -11,10 +12,9 @@ import {
 
     UsersType
 } from "../../Redux/usersReducer";
-import axios from "axios";
 import {Users} from "./Users";
-import preloader from "../img/Settings.gif"
 import Preloader from "../Preloader/Preloader";
+import {socialNetworkAPI} from "../../API/API";
 
 type mapStateToPropsType = {
     users: UsersType[];
@@ -22,9 +22,10 @@ type mapStateToPropsType = {
     pageSize: number;
     selectedPage: number;
     isFetch: boolean;
+    followingInProgress: number[]
 }
 
-type UsersPropsType = {
+export type UsersPropsType = {
     users: UsersType[];
     totalUsers: number;
     pageSize: number;
@@ -35,14 +36,17 @@ type UsersPropsType = {
     setPage: (page: number) => void;
     setTotalUsersCount: (totalUsersCount: number) => void;
     setIsFetch: (isFetch: boolean) => void;
-    isFetch: boolean
+    isFetch: boolean;
+    followingInProgress: number[];
+    setIsFollowing: (userID: number) => void;
+    finishFollowing: (userID: number) => void;
 }
 
 class UsersAPIComponent extends React.Component<UsersPropsType, {}> {
 
     componentDidMount() {
         this.props.setIsFetch(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.selectedPage}`)
+        socialNetworkAPI.getUsers(this.props.pageSize, this.props.selectedPage)
             .then(response => {
                 this.props.setIsFetch(false)
                 this.props.setUsers(response.data.items)
@@ -53,7 +57,7 @@ class UsersAPIComponent extends React.Component<UsersPropsType, {}> {
     onPageChange = (p: number) => {
         this.props.setPage(p)
         this.props.setIsFetch(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${p}`)
+        socialNetworkAPI.getUsers(this.props.pageSize, p)
             .then(response => {
                 this.props.setIsFetch(false)
                 this.props.setUsers(response.data.items)
@@ -63,13 +67,7 @@ class UsersAPIComponent extends React.Component<UsersPropsType, {}> {
     render() {
         return (this.props.isFetch
             ? <Preloader/>
-            : <Users totalUsers={this.props.totalUsers}
-                     pageSize={this.props.pageSize}
-                     selectedPage={this.props.selectedPage}
-                     onPageChange={this.onPageChange}
-                     users={this.props.users}
-                     follow={this.props.follow}
-                     unfollow={this.props.unfollow}/>)
+            : <Users {...this.props} onPageChange={this.onPageChange}/>)
     }
 }
 
@@ -79,7 +77,8 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
         totalUsers: state.usersPage.totalUsers,
         pageSize: state.usersPage.pageSize,
         selectedPage: state.usersPage.selectedPage,
-        isFetch: state.usersPage.isFetch
+        isFetch: state.usersPage.isFetch,
+        followingInProgress: state.usersPage.followingInProgress
     }
 }
 
@@ -100,5 +99,7 @@ export const UsersContainer = connect(mapStateToProps, {
     unfollow,
     setPage,
     setTotalUsersCount,
-    setIsFetch
+    setIsFetch,
+    setIsFollowing,
+    finishFollowing
 })(UsersAPIComponent)

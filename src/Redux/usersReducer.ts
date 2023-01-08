@@ -6,6 +6,7 @@ type UsersPageType = {
     pageSize: number;
     selectedPage: number;
     isFetch: boolean;
+    followingInProgress:number[];
 }
 
 type locationType = {
@@ -49,6 +50,7 @@ const usersInitialState: UsersPageType = {
     pageSize: 10,
     selectedPage: 1,
     isFetch: false,
+    followingInProgress:[]
 }
 
 export const FOLLOW = 'FOLLOW';
@@ -57,6 +59,8 @@ export const SET_USERS = 'SET_USERS';
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 export const SET_IS_FETCHING = 'SET_IS_FETCHING';
+export const SET_IS_FOLLOWING = 'SET_IS_FOLLOWING';
+export const FINISH_FOLLOWING = 'FINISH_FOLLOWING';
 
 
 type UsersActionType =
@@ -65,7 +69,9 @@ type UsersActionType =
     | setUsersACType
     | setPageACType
     | setTotalUsersCountACType
-    | setIsFetchingACType;
+    | setIsFetchingACType
+    |setIsFollowingACType
+    |finishFollowingACType;
 
 export type followACType = ReturnType<typeof follow>
 export type unFollowACType = ReturnType<typeof unfollow>
@@ -73,6 +79,8 @@ export type setUsersACType = ReturnType<typeof setUsers>
 export type setPageACType = ReturnType<typeof setPage>
 export type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>
 export type setIsFetchingACType = ReturnType<typeof setIsFetch>
+export type setIsFollowingACType = ReturnType<typeof setIsFollowing>
+export type finishFollowingACType = ReturnType<typeof finishFollowing>
 
 export const follow = (id: number) => {
     return {
@@ -126,16 +134,32 @@ export const setIsFetch = (isFetch: boolean) => {
     } as const;
 }
 
+export const setIsFollowing = (userID:number) => {
+    return {
+        type: SET_IS_FOLLOWING,
+        payload: {
+            userID,
+        }
+    } as const;
+}
+
+export const finishFollowing = (userID:number) => {
+    return {
+        type: FINISH_FOLLOWING,
+        payload: {
+            userID,
+        }
+    } as const;
+}
+
 export const usersReducer = (state: UsersPageType = usersInitialState, action: UsersActionType): UsersPageType => {
     switch (action.type) {
         case FOLLOW:
-            console.log(state.users[0].followed)
             return {
                 ...state,
                 users: [...state.users.map(user => user.id === action.payload.id ? {...user, followed: true} : user)]
             }
         case UNFOLLOW:
-            console.log(state.users[1].followed)
             return {
                 ...state,
                 users: [...state.users.map(user => user.id === action.payload.id ? {...user, followed: false} : user)]
@@ -148,6 +172,12 @@ export const usersReducer = (state: UsersPageType = usersInitialState, action: U
             return {...state, totalUsers: action.payload.totalUsersCount}
         case SET_IS_FETCHING:
             return {...state, isFetch: action.payload.isFetch}
+        case SET_IS_FOLLOWING:
+            console.log(action)
+            return {...state, followingInProgress: [...state.followingInProgress, action.payload.userID]}
+        case FINISH_FOLLOWING:
+            console.log(action)
+            return {...state, followingInProgress: state.followingInProgress.filter(el=> el !== action.payload.userID)}
         default:
             return state
     }

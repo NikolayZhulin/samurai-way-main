@@ -2,26 +2,34 @@ import React from 'react';
 import s from "./Users.module.css";
 import {UsersType} from "../../Redux/usersReducer";
 import {NavLink} from "react-router-dom";
+import {socialNetworkAPI} from "../../API/API";
+import {UsersPropsType} from "./UsersContainer";
 
 type UsersFuncPropsType = {
-    totalUsers: number;
-    pageSize: number;
-    selectedPage: number;
+    // totalUsers: number;
+    // pageSize: number;
+    // selectedPage: number;
     onPageChange: (p: number) => void;
-    users: UsersType[];
-    follow: (id: number) => void;
-    unfollow: (id: number) => void;
+    // users: UsersType[];
+    // follow: (id: number) => void;
+    // unfollow: (id: number) => void;
+    // followingInProgress: number[];
+    // setIsFollowing: (userID: number) => void
+    // finishFollowing: (userID: number) => void
 }
 
-export const Users: React.FC<UsersFuncPropsType> = ({
-                                        totalUsers,
-                                        pageSize,
-                                        selectedPage,
-                                        onPageChange,
-                                        users,
-                                        follow,
-                                        unfollow,
-                                    }) => {
+export const Users: React.FC<UsersPropsType & UsersFuncPropsType> = ({
+                                                                         totalUsers,
+                                                                         pageSize,
+                                                                         selectedPage,
+                                                                         onPageChange,
+                                                                         users,
+                                                                         follow,
+                                                                         unfollow,
+                                                                         followingInProgress,
+                                                                         setIsFollowing,
+                                                                         finishFollowing
+                                                                     }) => {
     console.log(totalUsers)
     let pageCount = Math.ceil(totalUsers / pageSize)
     let pages = [];
@@ -52,8 +60,27 @@ export const Users: React.FC<UsersFuncPropsType> = ({
                                         ? user.photos.small
                                         : 'https://tunnel.ru/media/images/2016-10/post_comment/798569/at256945296.jpg'}/></NavLink>
                                     <div>{!user.followed
-                                        ? <button onClick={() => follow(user.id)}>Follow</button>
-                                        : <button onClick={() => unfollow(user.id)}>Unfollow</button>}
+                                        ? <button disabled={followingInProgress.includes(user.id)}
+                                                  onClick={() => {
+                                                      setIsFollowing(user.id)
+                                                      socialNetworkAPI.follow(user.id)
+                                                          .then(response => {
+                                                              if (response.resultCode === 0) {
+                                                                  follow(user.id)
+                                                              }
+                                                              finishFollowing(user.id)
+                                                          })
+                                                  }}>Follow</button>
+                                        : <button
+                                            disabled={followingInProgress.includes(user.id)}
+                                            onClick={() => {
+                                                setIsFollowing(user.id)
+                                                socialNetworkAPI.unfollow(user.id).then(response => {
+                                                    if (response.resultCode === 0)
+                                                        unfollow(user.id)
+                                                })
+                                                finishFollowing(user.id)
+                                            }}>Unfollow</button>}
                                     </div>
                                 </div>
                                 <div>
