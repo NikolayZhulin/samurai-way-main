@@ -24,11 +24,9 @@ export const Users: React.FC<UsersPropsType & UsersFuncPropsType> = ({
                                                                          selectedPage,
                                                                          onPageChange,
                                                                          users,
-                                                                         follow,
-                                                                         unfollow,
                                                                          followingInProgress,
-                                                                         setIsFollowing,
-                                                                         finishFollowing
+                                                                         onFollow,
+                                                                         onUnfollow
                                                                      }) => {
     console.log(totalUsers)
     let pageCount = Math.ceil(totalUsers / pageSize)
@@ -60,27 +58,16 @@ export const Users: React.FC<UsersPropsType & UsersFuncPropsType> = ({
                                         ? user.photos.small
                                         : 'https://tunnel.ru/media/images/2016-10/post_comment/798569/at256945296.jpg'}/></NavLink>
                                     <div>{!user.followed
-                                        ? <button disabled={followingInProgress.includes(user.id)}
-                                                  onClick={() => {
-                                                      setIsFollowing(user.id)
-                                                      socialNetworkAPI.follow(user.id)
-                                                          .then(response => {
-                                                              if (response.resultCode === 0) {
-                                                                  follow(user.id)
-                                                              }
-                                                              finishFollowing(user.id)
-                                                          })
-                                                  }}>Follow</button>
+                                        ? <button
+                                            disabled={followingInProgress.includes(user.id)}
+                                            onClick={() => onFollow(user.id)}>
+                                            Follow
+                                        </button>
                                         : <button
                                             disabled={followingInProgress.includes(user.id)}
-                                            onClick={() => {
-                                                setIsFollowing(user.id)
-                                                socialNetworkAPI.unfollow(user.id).then(response => {
-                                                    if (response.resultCode === 0)
-                                                        unfollow(user.id)
-                                                })
-                                                finishFollowing(user.id)
-                                            }}>Unfollow</button>}
+                                            onClick={() => onUnfollow(user.id)}>
+                                            Unfollow
+                                        </button>}
                                     </div>
                                 </div>
                                 <div>

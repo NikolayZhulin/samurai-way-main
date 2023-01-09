@@ -3,17 +3,12 @@ import {Header} from "./Header";
 import axios from "axios";
 import {connect} from "react-redux";
 import {AppStateType} from "../../Redux/redux-store";
-import {setUserAuthData} from "../../Redux/auth-reducer";
-import {socialNetworkAPI} from "../../API/API";
+import {setAuthData} from "../../Redux/auth-reducer";
 
 class HeaderContainer extends React.Component<any, any> {
 
     componentDidMount() {
-        socialNetworkAPI.getUserAuthData().then(response => {
-                if(response.data.resultCode === 0){
-                    this.props.setUserAuthData(response.data.data)
-                }
-            })
+        this.props.setAuthData()
     }
 
     render() {
@@ -27,4 +22,4 @@ const mapStateToProps = (state:AppStateType):any => {
     }
 }
 
-export default connect(mapStateToProps, {setUserAuthData})(HeaderContainer);
+export default connect(mapStateToProps, {setAuthData})(HeaderContainer);

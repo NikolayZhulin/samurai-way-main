@@ -1,3 +1,5 @@
+import {socialNetworkAPI} from "../API/API";
+
 export const ADD_POST = "ADD-POST";
 export const UPDATE_POST_TEXT = "UPDATE-POST-TEXT";
 export const SET_USER_PROFILE = "SET_USER_PROFILE";
@@ -60,7 +62,7 @@ const profileInitialState: any = {
     profile:null
 }
 
-const profileReducer = (state: any = profileInitialState, action: ActionsTypes):any => {
+ const profileReducer = (state: any = profileInitialState, action: ActionsTypes):any => {
     switch (action.type) {
         case ADD_POST:
             let post = {post: action.newText, likeCount: 0};
@@ -72,7 +74,12 @@ const profileReducer = (state: any = profileInitialState, action: ActionsTypes):
         default:
             return state;
     }
-    return state;
+}
+
+export const getProfileInfo =(id:number)=>(dispatch:any)=>{
+    socialNetworkAPI.getUserProfile(id).then(response => {
+        dispatch(setUserProfile(response.data))
+    })
 }
 
 export default profileReducer;

@@ -1,4 +1,5 @@
 import React from "react";
+import {socialNetworkAPI} from "../API/API";
 
 type UsersPageType = {
     users: UsersType[];
@@ -171,6 +172,7 @@ export const usersReducer = (state: UsersPageType = usersInitialState, action: U
         case SET_TOTAL_USERS_COUNT:
             return {...state, totalUsers: action.payload.totalUsersCount}
         case SET_IS_FETCHING:
+            console.log(action)
             return {...state, isFetch: action.payload.isFetch}
         case SET_IS_FOLLOWING:
             console.log(action)
@@ -181,4 +183,45 @@ export const usersReducer = (state: UsersPageType = usersInitialState, action: U
         default:
             return state
     }
+}
+
+export const getUsers = (pageSize: number, selectedPage: number) => (dispatch:any)=>{
+    dispatch(setIsFetch(true))
+    socialNetworkAPI.getUsers(pageSize, selectedPage)
+        .then(response => {
+           dispatch(setIsFetch(false))
+            dispatch(setUsers(response.data.items))
+            dispatch(setTotalUsersCount(response.data.totalCount))
+        })
+}
+
+export const onPageChange = (pageSize: number, currentPage: number) => (dispatch:any)=>{
+    dispatch(setPage(currentPage))
+    dispatch(setIsFetch(true))
+    socialNetworkAPI.getUsers(pageSize, currentPage)
+        .then(response => {
+            dispatch(setIsFetch(false))
+            dispatch(setUsers(response.data.items))
+        })
+}
+
+export const onFollow = (userId: number) => (dispatch:any)=>{
+    dispatch(setIsFollowing(userId))
+    socialNetworkAPI.follow(userId)
+        .then(response => {
+            if (response.resultCode === 0) {
+                dispatch(follow(userId))
+            }
+            dispatch(finishFollowing(userId))
+        })
+}
+
+export const onUnfollow = (userId: number) => (dispatch:any)=>{
+    dispatch(setIsFollowing(userId))
+    socialNetworkAPI.unfollow(userId).then(response => {
+        if (response.resultCode === 0) {
+            dispatch(unfollow(userId))
+        }
+    })
+    dispatch(finishFollowing(userId))
 }

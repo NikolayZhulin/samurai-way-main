@@ -16,7 +16,7 @@ export const socialNetworkAPI = {
     },
 
     getUserAuthData: function () {
-        return instance.get(`auth/me`)
+        return instance.get(`auth/me`).then(data=>data.data)
     },
 
     follow: function (userID: number) {
@@ -25,5 +25,11 @@ export const socialNetworkAPI = {
 
     unfollow: function (userID: number) {
         return instance.delete(`follow/${userID}`).then(resp=>resp.data)
+    },
+
+    getUserProfile: function (currentUserId:number){
+        instance.get(`profile/${currentUserId}`).then(resp=>console.log(resp))
+        return instance.get(`profile/${currentUserId}`)
+
     }
 }

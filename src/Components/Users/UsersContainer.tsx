@@ -3,18 +3,14 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../Redux/redux-store";
 import {
     finishFollowing,
-    follow,
-    setIsFetch, setIsFollowing,
-    setPage,
-    setTotalUsersCount,
-    setUsers,
-    unfollow,
-
+    getUsers, onFollow,
+    onPageChange, onUnfollow,
+    setIsFollowing,
     UsersType
 } from "../../Redux/usersReducer";
 import {Users} from "./Users";
 import Preloader from "../Preloader/Preloader";
-import {socialNetworkAPI} from "../../API/API";
+
 
 type mapStateToPropsType = {
     users: UsersType[];
@@ -30,38 +26,22 @@ export type UsersPropsType = {
     totalUsers: number;
     pageSize: number;
     selectedPage: number;
-    follow: (id: number) => void;
-    unfollow: (id: number) => void;
-    setUsers: (users: UsersType[]) => void;
-    setPage: (page: number) => void;
-    setTotalUsersCount: (totalUsersCount: number) => void;
-    setIsFetch: (isFetch: boolean) => void;
     isFetch: boolean;
     followingInProgress: number[];
-    setIsFollowing: (userID: number) => void;
-    finishFollowing: (userID: number) => void;
+    getUsers: (pageSize: number, selectedPage: number) => void;
+    onPageChange: (pageSize: number, currentPage: number) => void;
+    onFollow: (userId: number) => void;
+    onUnfollow: (userId: number) => void;
 }
 
 class UsersAPIComponent extends React.Component<UsersPropsType, {}> {
 
     componentDidMount() {
-        this.props.setIsFetch(true)
-        socialNetworkAPI.getUsers(this.props.pageSize, this.props.selectedPage)
-            .then(response => {
-                this.props.setIsFetch(false)
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUsersCount(response.data.totalCount)
-            })
+        this.props.getUsers(this.props.pageSize, this.props.selectedPage)
     }
 
     onPageChange = (p: number) => {
-        this.props.setPage(p)
-        this.props.setIsFetch(true)
-        socialNetworkAPI.getUsers(this.props.pageSize, p)
-            .then(response => {
-                this.props.setIsFetch(false)
-                this.props.setUsers(response.data.items)
-            })
+        this.props.onPageChange(this.props.pageSize, p)
     }
 
     render() {
@@ -94,12 +74,9 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
 // }
 
 export const UsersContainer = connect(mapStateToProps, {
-    setUsers,
-    follow,
-    unfollow,
-    setPage,
-    setTotalUsersCount,
-    setIsFetch,
-    setIsFollowing,
-    finishFollowing
+    finishFollowing,
+    getUsers,
+    onPageChange,
+    onFollow,
+    onUnfollow
 })(UsersAPIComponent)
