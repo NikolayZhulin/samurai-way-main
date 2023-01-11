@@ -26,14 +26,14 @@ export type MessagesPageType = {
 }
 
 
-export const updateMessageTextActionCreator = (newText: string): ActionsTypes => {
+export const updateMessageText = (newText: string): ActionsTypes => {
     return {
         type: UPDATE_MESSAGE_TEXT,
         newText: newText,
     }
 }
 
-export const addMessageActionCreator = (newText: string): ActionsTypes => {
+export const addMessage = (newText: string): ActionsTypes => {
     return {
         type: ADD_MESSAGE,
         newText: newText,

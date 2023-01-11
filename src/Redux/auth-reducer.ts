@@ -36,7 +36,7 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
     }
 }
 
-export const setAuthData = ()=>(dispatch:any)=>{
+export const getAuthData = ()=>(dispatch:any)=>{
 
     socialNetworkAPI.getUserAuthData().then(response => {
         if(response.resultCode === 0){

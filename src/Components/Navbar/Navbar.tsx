@@ -16,6 +16,7 @@ export const Navbar =()=>{
 					<div><NavLink to="/music" activeClassName={classes.active}>Music</NavLink></div>
 					<div><NavLink to="/settings" activeClassName={classes.active}>Settings</NavLink></div>
 					<div><NavLink to="/users" activeClassName={classes.active}>Users</NavLink></div>
+					<div><NavLink to="/login" activeClassName={classes.active}>Login</NavLink></div>
 
 					{/*<div className={classes.friends_link}>*/}
 						<div className={classes.friends}>

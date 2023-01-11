@@ -12,6 +12,7 @@ import {Friends} from "./Components/Friends/Friends";
 import {UsersContainer} from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
+import {Login} from "./Components/Login/Login";
 
 
 
@@ -28,6 +29,7 @@ function App() {
                 <Route path='/settings' render={Settings}/>
                 <Route path='/users' render={()=><UsersContainer/>}/>
                 <Route path='/friends' render={Friends}/>
+                <Route path='/login' render={Login}/>
             </div>
             <Footer/>
         </div>

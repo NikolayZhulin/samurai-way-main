@@ -1,7 +1,8 @@
 import {
-    addMessageActionCreator, dialogsType,
+    addMessage,
+    dialogsType,
     MessagesPageType,
-    updateMessageTextActionCreator
+    updateMessageText,
 } from "../../../Redux/messagePageReducer";
 import {MessageItem} from "./Messages";
 import React from "react";
@@ -43,20 +44,17 @@ import {AppStateType} from "../../../Redux/redux-store";
 type MapStateToPropsType = {
     messages: MessagesPageType,
     dialogs:dialogsType[];
+    auth:boolean;
 }
 
 const mapStateToProps = (state: AppStateType):MapStateToPropsType=>{
     return {
         messages: state.messagesPage,
-        dialogs:state.messagesPage.dialogs
+        dialogs:state.messagesPage.dialogs,
+        auth: state.auth.isAuth
     }
 }
 
-const mapDispatchToProps = (dispatch:any)=>{
-    return {
-        addMessage:(newText:string)=>dispatch(addMessageActionCreator(newText)),
-        messageTextChange: (newText:string)=>dispatch(updateMessageTextActionCreator(newText))
-    }
-}
 
-export const MessagesContainer = connect(mapStateToProps, mapDispatchToProps)(MessageItem)
+
+export const MessagesContainer = connect(mapStateToProps, {addMessage,updateMessageText})(MessageItem)
